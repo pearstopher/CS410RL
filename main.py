@@ -43,6 +43,17 @@ class Agent:
         print("Agent location:" + str(self.location))
 
 
+    # the agent should have the following sensors:
+    # 1. sense direction (approximate # of degrees)
+    # 2. sense nearest node direction (approximate # of degrees)
+    # 3 sense nearest node proximity (in range, close range, far, unknown)
+    #
+    # with these senses, there should be (# of ranges)((# of degrees)^2) possible states
+    # with 4 ranges and 8 possible directions (45 degree accuracy) there are 256 possible states
+    # with 4 ranges and 16 possible directions (22.5 degree accuracy) there are 1024
+    # this seems reasonable so far
+
+
 
 def main():
     print("CS410 Reinforcement Learning Project")
@@ -56,6 +67,8 @@ def main():
     #  so that the same agent can gather experiences in many worlds)
     agent = Agent(world)
     agent.describe()
+
+
 
 
 
