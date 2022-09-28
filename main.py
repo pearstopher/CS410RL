@@ -50,6 +50,8 @@ class Environment:
         x = self.node[0] - self.home[0]
         y = self.node[1] - self.home[1]
         d = math.degrees(math.atan2(y, x))
+        if d < 0:
+            d += 360  # let's keep things positive
 
         # node proximity
         # (calculated with pythagorean theorem)
@@ -103,6 +105,8 @@ class Agent:
     # with 4 ranges and 8 possible directions (45 degree accuracy) there are 256 possible states
     # with 4 ranges and 16 possible directions (22.5 degree accuracy) there are 1024
     # this seems reasonable so far
+    #
+    # (note that the total amount of information also multiplies by the number of available actions
 
 
 
