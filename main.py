@@ -22,7 +22,7 @@ class Environment:
         # set the location where agents will begin when entering this world
         self.home = self.random_location()
         # and the direction the agent will be facing when they "spawn"
-        self.orientation = random.randint(0,360)
+        self.orientation = random.random()*360
 
     # return a random valid location within the bounds of the world
     def random_location(self):
@@ -35,7 +35,7 @@ class Environment:
         print("World size: " + str(self.x) + "x" + str(self.y) + ".")
         print("Node location: " + str(self.node))
         print("Home location: " + str(self.home))
-        print("State: " + str(self.state))
+        print("State: " + str(self.state()))
 
     # the world exports specific information about it's state
     # this raw information can be processed by the agent's sensors
@@ -49,12 +49,12 @@ class Environment:
         # https://math.stackexchange.com/questions/707673/find-angle-in-degrees-from-one-point-to-another-in-2d-space
         x = self.node[0] - self.home[0]
         y = self.node[1] - self.home[1]
-        d = math.atan2(y, x)
+        d = math.degrees(math.atan2(y, x))
 
         # node proximity
         # (calculated with pythagorean theorem)
         # exact distance up to a limit, 0 if too far
-        p_max = 10
+        p_max = 100
         p = ((self.node[0] - self.home[0])**2 + (self.node[1] - self.home[1])**2)**0.5
         if p > p_max:
             p = 0
@@ -113,7 +113,7 @@ def main():
     agent.info()
 
     # initialize an environment for the agent to explore
-    world = Environment(1234,567)
+    world = Environment(100,100)
     world.info()
 
     # place the agent in the environment
