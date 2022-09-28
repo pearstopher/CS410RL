@@ -106,7 +106,7 @@ class Agent:
     # with 4 ranges and 16 possible directions (22.5 degree accuracy) there are 1024
     # this seems reasonable so far
     #
-    # (note that the total amount of information also multiplies by the number of available actions
+    # (note that the total amount of information also multiplies by the number of available actions)
 
 
 
