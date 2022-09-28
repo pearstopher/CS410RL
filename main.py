@@ -116,10 +116,10 @@ class Agent:
 
         # proximity is 0 when there is no reading due to distance
         if state[2] == 0:
-            p = self.num_proximity - 1
-        # if there is a proximity reading, assign a proximity
+            p = self.num_proximity - 1 # assign maximum proximity rating (farthest)
+        # proximity is nonzero when there is a successful reading
         else:
-            p = state[2] * (self.num_proximity - 1) // 1
+            p = state[2] * (self.num_proximity - 1) // 1 # assign proximity linearly
 
         return o, d, p
 
