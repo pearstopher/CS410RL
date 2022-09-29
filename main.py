@@ -18,11 +18,14 @@ class Environment:
 
         # set the location of the destination (single gathering node)
         self.node = self.random_location()
-
         # set the location where agents will begin when entering this world
         self.home = self.random_location()
         # and the direction the agent will be facing when they "spawn"
         self.orientation = random.random()*360
+
+        # set the environmental rewards
+        self.DEFAULT_ACTION_REWARD = -1  # in general, a solution with fewer actions is better
+        self.GATHERING_SUCCESS = 100  # this is the reward for when the agent achieves its goal
 
     # return a random valid location within the bounds of the world
     def random_location(self):
@@ -96,6 +99,8 @@ class Environment:
 
         self.orientation += rotate_amount
         self.orientation += random.random() * random_amount - 0.5  # center at 0
+
+        return DEFAULT_ACTION_REWARD
 
 
 
