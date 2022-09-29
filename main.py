@@ -39,7 +39,12 @@ class Environment:
 
     # the world exports specific information about it's state
     # this raw information can be processed by the agent's sensors
-    # this information returned from this function is the only information the agent can recieve
+    # this information returned from this function is the only information the agent can receive
+    #
+    # return values:
+    # o: orientation, float [0, 360). The direction the agent is facing in degrees.
+    # d: direction, float [0, 360). The direction of the nearest gathering node in degrees.
+    # p: proximity, float [0, p_max). The proximity of the closest node. (0 if farther than p_max.)
     def state(self):
         # orientation angle
         o = self.orientation
@@ -66,6 +71,32 @@ class Environment:
             p = p / p_max
 
         return o, d, p
+
+
+    # abilities!!!
+    #
+    # the boundary between the agent and the world is interesting for sure
+    # in this case, the world provides a set of abilities
+    # and the agent's "actions" are to trigger the usage of these "abilities"
+    #
+    # the initial abilities (more can be added later) are:
+    # * turn left
+    # * turn right
+    # * go forwards
+    # * gather node
+    #
+
+    # turn left
+    # the agent's position in the world is rotated a small amount to the left
+    # there is a bit of randomness in exactly how much movement actually occurs
+    def left(self):
+        rotate_amount = 10  # degrees
+        random_percent = 10  # percent of rotate_amount
+        random_amount = rotate_amount * random_percent / 100 # center at 0
+
+        self.orientation += rotate_amount
+        self.orientation += random.random() * random_amount - 0.5  # center at 0
+
 
 
 
