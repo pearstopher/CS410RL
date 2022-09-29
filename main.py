@@ -6,6 +6,7 @@
 
 import random
 import math
+import game
 
 
 # world generation function
@@ -213,6 +214,25 @@ def main():
 
     # display information from agent's sensors
     agent.info()
+
+
+    # create a thread for the game
+    import threading
+    from queue import Queue
+    q = Queue()
+    thr = threading.Thread(target=game.game, args=(world,))
+    thr.start()
+
+    # thr.is_alive()  # Will return whether foo is running currently
+    while thr.is_alive():
+        # world.forward()
+        print("x")
+        world.forward()
+        world.left()
+
+    thr.join()  # Will wait till "foo" is done
+
+    # game.game(world)
 
     world.forward()
     world.info()
