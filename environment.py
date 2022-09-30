@@ -97,7 +97,7 @@ class Environment:
         random_amount = rotate_amount * random_percent / 100 # center at 0
 
         self.orientation += rotate_amount
-        self.orientation += random.random() * random_amount - 0.5  # center at 0
+        self.orientation += random.random() * random_amount - (random_amount / 2)  # center at 0
 
         # don't get too big
         if self.orientation > 360:
@@ -125,15 +125,16 @@ class Environment:
     # the agent's position in the world moves forward by a specified amount
     # again, the distance is not exact but varies slightly
     def forward(self):
-        forward_amount = 1  # units
+        forward_amount = 0.1  # units
         random_percent = 10  # percent of forward_amount
         random_amount = forward_amount * random_percent / 100 # center at 0
 
         total_amount = forward_amount + random.random() * random_amount - (random_amount / 2)  # center at 0
 
         # change the agent coordinates based on the direction the agent is facing
-        x_amount =  total_amount * math.cos(self.orientation)
-        y_amount = total_amount * math.sin(self.orientation)
+        # damn radians and degrees!
+        x_amount = total_amount * math.cos(self.orientation/2*math.pi)
+        y_amount = total_amount * math.sin(self.orientation/2*math.pi)
 
         # don't go out of the bounds of the map
         if (self.agent[0] + x_amount) > self.x or (self.agent[0] + x_amount) < 0:

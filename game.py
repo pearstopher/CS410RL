@@ -43,6 +43,10 @@ def game(environment):
         screen.fill((20,20,20))
 
 
+
+        # INFO SECTION
+        pygame.draw.rect(screen, (200,20,20), pygame.Rect(info), 2)
+
         state = environment.state()
         # what is a loop? i keep hearing about them
         text0 = font.render(str(state[0]), True, (0, 255, 0), (0, 0, 255))
@@ -56,15 +60,25 @@ def game(environment):
         screen.blit(text2, text2_rect)
 
 
-        # info section
-        pygame.draw.rect(screen, (200,20,20), pygame.Rect(info), 2)
-
-
-        # map section
+        # MAP SECTION
         pygame.draw.rect(screen, (200,20,20), pygame.Rect(map), 2)
 
+        # convert map dimensions to game dimensions (800x800
+        x_factor = 800 / environment.x
+        y_factor = 800 / environment.y
 
-        # minimap section
+        # plot node location
+        pygame.draw.circle(screen, (0, 255, 0), (400 + environment.node[0] * x_factor,
+                                                 environment.node[1] * y_factor), 5)
+
+        # plot agent location
+        pygame.draw.circle(screen, (255, 0, 0), (400 + environment.agent[0] * x_factor,
+                                                 environment.agent[1] * y_factor), 5)
+
+
+
+
+        # MINIMAP SECTION
         pygame.draw.rect(screen, (200,20,20), pygame.Rect(mini), 2)
 
         # circle: surface, color, center, radius, width
