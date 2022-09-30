@@ -15,12 +15,8 @@ class Environment:
         self.x = x  # width
         self.y = y  # height
 
-        # set the location of the destination (single gathering node)
-        self.node = self.random_location()
-        # set the location where agents will begin when entering this world
-        self.agent = self.random_location()
-        # and the direction the agent will be facing when they "spawn"
-        self.orientation = random.random()*360
+        self.node, self.agent, self.orientation = None, None, None
+        self.reset()
 
         # set the environmental rewards
         self.DEFAULT_ACTION_REWARD = -1  # in general, a solution with fewer actions is better
@@ -29,6 +25,15 @@ class Environment:
     # return a random valid location within the bounds of the world
     def random_location(self):
         return random.randint(0, self.x), random.randint(0,self.y)
+
+    # rest the world to a new starting position
+    def reset(self):
+        # set the location of the destination (single gathering node)
+        self.node = self.random_location()
+        # set the location where agents will begin when entering this world
+        self.agent = self.random_location()
+        # and the direction the agent will be facing when they "spawn"
+        self.orientation = random.random()*360
 
 
     # print world information
@@ -59,9 +64,6 @@ class Environment:
         d = math.degrees(math.atan2(y, x))
         if d < 0:
             d += 360  # let's keep things positive
-        print(self.node)
-        print(self.agent)
-        print(d)
 
         # node proximity
         # (calculated with pythagorean theorem)

@@ -4,10 +4,9 @@
 #
 #
 
-import game
+from game import game
 from agent import Agent
 from environment import Environment
-
 
 
 def main():
@@ -34,7 +33,7 @@ def main():
     # you can safely transfer stuff between threads with locks or queues if you wanna
     # from queue import Queue
     # q = Queue()
-    thr = threading.Thread(target=game.game, args=(world,))
+    thr = threading.Thread(target=game, args=(world,))
     thr.start()
 
     import time # sleep to slow down for visual display
@@ -42,25 +41,20 @@ def main():
     # while the game interface is running, go ahead and let the agent run
     # the interface is purely a visual representation of what is going on behind the scenes
     # (although it currently can't be disabled)
-    while thr.is_alive():
+    #
+    episodes = 100
+    e = 0
+    while thr.is_alive() and e < episodes:
 
-        print("x")
-        world.forward()
-        world.right()  # if this works the agent will go in circles
-        time.sleep(0.1)
+        # let the agent train until it reaches the max number of episodes
+        # (or the pygame window is closed)
+        agent.episode()
+        e += 1
+        time.sleep(0.01)
 
     thr.join()  # Will wait till "foo" is done
 
-    # game.game(world)
-
-    world.forward()
     world.info()
-    world.forward()
-    world.info()
-
-
-
-
 
 
 if __name__ == '__main__':

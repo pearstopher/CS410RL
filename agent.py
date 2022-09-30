@@ -64,3 +64,16 @@ class Agent:
 
         return o, d, p
 
+    def episode(self):
+        # run for a set number of actions
+        i = 0
+        while i < 100:
+            self.world.forward()
+            self.world.left()
+            i += 1
+            import time
+            time.sleep(0.01)
+
+        # reset the world
+        self.world.reset()
+
