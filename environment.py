@@ -99,6 +99,10 @@ class Environment:
         self.orientation += rotate_amount
         self.orientation += random.random() * random_amount - 0.5  # center at 0
 
+        # don't get too big
+        if self.orientation > 360:
+            self.orientation -= 360
+
         return self.DEFAULT_ACTION_REWARD
 
     # turn right
@@ -131,6 +135,12 @@ class Environment:
         x_amount =  total_amount * math.cos(self.orientation)
         y_amount = total_amount * math.sin(self.orientation)
 
-        self.agent = (self.agent[0] + x_amount, self.agent[1] + y_amount) # fix this tuple-y sadness
+        # don't go out of the bounds of the map
+        if (self.agent[0] + x_amount) > self.x or (self.agent[0] + x_amount) < 0:
+            x_amount = 0
+        if (self.agent[1] + y_amount) > self.y or (self.agent[1] + y_amount) < 0:
+            y_amount = 0
+
+        self.agent = (self.agent[0] + x_amount, self.agent[1] + y_amount) # fix this tuple-y sadness / madness
 
         return self.DEFAULT_ACTION_REWARD

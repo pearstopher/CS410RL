@@ -29,6 +29,7 @@ def main():
 
 
     # create a thread for the game
+    # ideally I will be able to cap the framerate of pygame without slowing the actual computation
     import threading
     # you can safely transfer stuff between threads with locks or queues if you wanna
     # from queue import Queue
