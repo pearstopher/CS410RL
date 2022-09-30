@@ -17,7 +17,7 @@ def main():
     agent = Agent()
 
     # initialize an environment for the agent to explore
-    world = Environment(100,100)
+    world = Environment(50,50)
     world.info()
 
     # place the agent in the environment
@@ -42,17 +42,37 @@ def main():
     # the interface is purely a visual representation of what is going on behind the scenes
     # (although it currently can't be disabled)
     #
-    episodes = 100
+    episodes = 1000
     e = 0
     while thr.is_alive() and e < episodes:
 
         # let the agent train until it reaches the max number of episodes
         # (or the pygame window is closed)
-        agent.episode()
+        reward = agent.episode()
+        print("Episode:", e, "Total Reward:", reward)
         e += 1
-        time.sleep(0.01)
+        time.sleep(0.001)
 
-    thr.join()  # Will wait till "foo" is done
+
+
+    thr.join()  # Will wait till game is done
+
+    for _ in range(5):
+        e = 1000
+
+        # start another thread
+        thr = threading.Thread(target=game, args=(world,))
+        thr.start()
+
+        success = 0
+        while thr.is_alive() and e > 0 and success == 0:
+            reward, success = agent.step()
+            e -= 1
+            time.sleep(0.05)
+
+        thr.join()
+
+        world.reset()
 
     world.info()
 

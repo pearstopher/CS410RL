@@ -90,6 +90,7 @@ class Agent:
 
         # reset the world at the end of the episode
         self.world.reset()
+        return total_reward
 
     # a step is an individual action
     # the action returns a reward and a "boolean":
@@ -99,7 +100,7 @@ class Agent:
         success = 0
 
         # 1. observe the state
-        state = self.world.state()
+        state = self.sense()
 
         # 2. choose an action based on the state
         action = self.epsilon_greedy_action(state)
@@ -118,12 +119,17 @@ class Agent:
                 success = 1
 
         # 4. observe the new state
-        new_state = self.world.state()
+        new_state = self.sense()
 
         # 5. update the q-table based on the formula:
         #    𝑄(𝑠_𝑡, 𝑎_𝑡) = 𝑄(𝑠_𝑡, 𝑎_𝑡) + 𝜂(𝑟_𝑡 + 𝛾𝑚𝑎𝑥_𝑎′𝑄(𝑠_(𝑡+1), 𝑎′) − 𝑄(𝑠_𝑡, 𝑎_𝑡))
+        eta = 0.1
+        gamma = 0.9
 
-        # (todo)
+        q = self.get_q(state, action)
+        max_a_q = self.get_q(new_state, self.best_action(new_state))
+        new_q = q + eta * (reward + (gamma * max_a_q) - q)
+        self.set_q(state, action, new_q)
 
         return reward, success
 
@@ -141,7 +147,6 @@ class Agent:
         return action
 
     def best_action(self, state):
-
         # Choose an action a_t, using greedy action selection
         action_values = np.zeros(self.num_actions)
         for i in range(len(action_values)):
@@ -151,4 +156,10 @@ class Agent:
         actions = np.argwhere(action_values == max(action_values))
         index = random.randrange(0, len(actions))
         return actions[index]
+
+    # helper functions for getting and setting q-values
+    def get_q(self, state, action):
+        return self.q[int(state[0]), int(state[1]), int(state[2]), int(action)]
+    def set_q(self, state, action, value):
+        self.q[int(state[0]), int(state[1]), int(state[2]), int(action)] = value
 
