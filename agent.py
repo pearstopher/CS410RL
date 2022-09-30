@@ -96,6 +96,7 @@ class Agent:
     # 0 if the node has not been gathered, and
     # 1 if the node has been gathered (episode can end)
     def step(self):
+        success = 0
 
         # 1. observe the state
         state = self.world.state()
@@ -112,6 +113,9 @@ class Agent:
             reward = self.world.forward()
         else:
             reward = self.world.gather()
+            # check for successful gathering attempt (possible to end episode)
+            if reward > 0:
+                success = 1
 
         # 4. observe the new state
         new_state = self.world.state()
@@ -121,4 +125,4 @@ class Agent:
 
         # (todo)
 
-        return reward, 0
+        return reward, success

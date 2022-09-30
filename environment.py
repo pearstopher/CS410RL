@@ -150,3 +150,18 @@ class Environment:
         self.agent = (self.agent[0] + x_amount, self.agent[1] + y_amount) # fix this tuple-y sadness / madness
 
         return self.DEFAULT_ACTION_REWARD
+
+    # gathering function
+    # tries to gather a node. this is successful if we are close enough to the node
+    # (todo: and facing it!!!)
+    def gather(self):
+
+        # calculate distance between agent and node
+        distance = math.sqrt((self.agent[0] - self.node[0])**2 + (self.agent[1] - self.node[1])**2)
+
+        # arbitrarily choose how close we should be for now
+        if distance < 5:
+            return self.GATHERING_SUCCESS
+        # no special punishment needed, wasting time is punishment enough
+        else:
+            return self.DEFAULT_ACTION_REWARD
