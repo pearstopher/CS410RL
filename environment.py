@@ -59,6 +59,9 @@ class Environment:
         d = math.degrees(math.atan2(y, x))
         if d < 0:
             d += 360  # let's keep things positive
+        print(self.node)
+        print(self.agent)
+        print(d)
 
         # node proximity
         # (calculated with pythagorean theorem)
@@ -119,13 +122,15 @@ class Environment:
         if self.orientation < 0:
             self.orientation += 360
 
+        # print(self.orientation)
+
         return self.DEFAULT_ACTION_REWARD
 
     # go forwards
     # the agent's position in the world moves forward by a specified amount
     # again, the distance is not exact but varies slightly
     def forward(self):
-        forward_amount = 0.1  # units
+        forward_amount = 1  # units
         random_percent = 10  # percent of forward_amount
         random_amount = forward_amount * random_percent / 100 # center at 0
 
@@ -133,8 +138,9 @@ class Environment:
 
         # change the agent coordinates based on the direction the agent is facing
         # damn radians and degrees!
-        x_amount = total_amount * math.cos(self.orientation/2*math.pi)
-        y_amount = total_amount * math.sin(self.orientation/2*math.pi)
+        print(self.orientation)
+        x_amount = total_amount * math.cos(math.radians(self.orientation))
+        y_amount = total_amount * math.sin(math.radians(self.orientation))
 
         # don't go out of the bounds of the map
         if (self.agent[0] + x_amount) > self.x or (self.agent[0] + x_amount) < 0:

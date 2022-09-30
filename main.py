@@ -18,7 +18,7 @@ def main():
     agent = Agent()
 
     # initialize an environment for the agent to explore
-    world = Environment(125,125)
+    world = Environment(100,100)
     world.info()
 
     # place the agent in the environment
@@ -37,6 +37,8 @@ def main():
     thr = threading.Thread(target=game.game, args=(world,))
     thr.start()
 
+    import time # sleep to slow down for visual display
+
     # while the game interface is running, go ahead and let the agent run
     # the interface is purely a visual representation of what is going on behind the scenes
     # (although it currently can't be disabled)
@@ -44,7 +46,8 @@ def main():
 
         print("x")
         world.forward()
-        world.right()  # if this works the agent will go in circles
+        # world.right()  # if this works the agent will go in circles
+        time.sleep(0.5)
 
     thr.join()  # Will wait till "foo" is done
 

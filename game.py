@@ -69,12 +69,14 @@ def game(environment):
         y_factor = 800 / environment.y
 
         # plot node location
+        # subtract 800 from y-coordinate because y-coordinates are reversed (0 on top not bottom)
         pygame.draw.circle(screen, (0, 255, 0), (400 + environment.node[0] * x_factor,
-                                                 environment.node[1] * y_factor), 5)
+                                                 800 - environment.node[1] * y_factor), 5)
+
 
         # plot agent location
         pygame.draw.circle(screen, (255, 0, 0), (400 + environment.agent[0] * x_factor,
-                                                 environment.agent[1] * y_factor), 5)
+                                                 800 - environment.agent[1] * y_factor), 5)
 
 
 
@@ -92,13 +94,17 @@ def game(environment):
         if state[2] == 0:
             proximity = radius
         else:
-            proximity = radius * state[2]  # proximity is already normalized to range 0,1
+            proximity = radius * state[2]  # state[2] proximity is already normalized to range 0,1
+            proximity = radius
 
         # calculate node location relative to center of circle
-        rel_x = proximity * math.cos(state[1]/2*math.pi)
-        rel_y = proximity * math.sin(state[1]/2*math.pi)
+        rel_x = proximity * math.cos(math.radians(state[1]))
+        rel_y = proximity * math.sin(math.radians(state[1]))
         # and draw a little circle for the node
-        pygame.draw.circle(screen, (0, 255, 0), (center_x + rel_x, center_y + rel_y), 5)
+        # subtract rel_y because again coordinates are reversed in the visual system
+        pygame.draw.circle(screen, (0, 255, 0), (center_x + rel_x, center_y - rel_y), 5)
+
+        print(state[1])
 
         # Flip the display
         pygame.display.flip()
