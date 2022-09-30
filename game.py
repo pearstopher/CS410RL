@@ -17,19 +17,18 @@ def game(environment):
 
     # Set up the drawing window
     screen = pygame.display.set_mode([1600, 800])
+
+    # display division:
     # 0-399 = info/buttons/tbd
     # 400-1199 = map display
     # 1200-1599 = minimap
-
+    #
     # left, top, width, height
     info = (0, 0, 400, 800)
     map = (400, 0, 800, 800)
     mini = (1200, 0, 400, 800)
 
-    font = pygame.font.Font('freesansbold.ttf', 12)
-    text = font.render(str(environment.state()), True, (0,255,0), (0,0,255))
-    textRect = text.get_rect()
-    textRect.center = (400 // 2, 200 // 2)
+    font = pygame.font.Font('freesansbold.ttf', 16)
 
     # Run until the user asks to quit
     running = True
@@ -43,9 +42,18 @@ def game(environment):
         # Fill the background with (mostly) darkness
         screen.fill((20,20,20))
 
-        # try and show the text
-        text = font.render(str(environment.state()), True, (0, 255, 0), (0, 0, 255))
-        screen.blit(text, textRect)
+
+        state = environment.state()
+        # what is a loop? i keep hearing about them
+        text0 = font.render(str(state[0]), True, (0, 255, 0), (0, 0, 255))
+        text1 = font.render(str(state[1]), True, (0, 255, 0), (0, 0, 255))
+        text2 = font.render(str(state[2]), True, (0, 255, 0), (0, 0, 255))
+        text0_rect = pygame.Rect(10,10,400,40)
+        text1_rect = pygame.Rect(10,60,400,40)
+        text2_rect = pygame.Rect(10,110,400,40)
+        screen.blit(text0, text0_rect)
+        screen.blit(text1, text1_rect)
+        screen.blit(text2, text2_rect)
 
 
         # info section
