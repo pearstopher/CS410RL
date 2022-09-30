@@ -13,6 +13,7 @@ def main():
     print("CS410 Reinforcement Learning Project")
 
 
+
     # initialize the agent
     agent = Agent()
 
@@ -30,10 +31,12 @@ def main():
     # create a thread for the game
     # ideally I will be able to cap the framerate of pygame without slowing the actual computation
     import threading
+    lock = threading.Lock()
+
     # you can safely transfer stuff between threads with locks or queues if you wanna
     # from queue import Queue
     # q = Queue()
-    thr = threading.Thread(target=game, args=(world,))
+    thr = threading.Thread(target=game, args=(world,lock))
     thr.start()
 
     import time # sleep to slow down for visual display
@@ -48,7 +51,9 @@ def main():
 
         # let the agent train until it reaches the max number of episodes
         # (or the pygame window is closed)
+        lock.acquire()
         reward = agent.episode()
+        lock.release()
         print("Episode:", e, "Total Reward:", reward)
         e += 1
         time.sleep(0.001)
@@ -61,12 +66,14 @@ def main():
         e = 1000
 
         # start another thread
-        thr = threading.Thread(target=game, args=(world,))
+        thr = threading.Thread(target=game, args=(world,lock))
         thr.start()
 
         success = 0
         while thr.is_alive() and e > 0 and success == 0:
+            lock.acquire()
             reward, success = agent.step()
+            lock.release()
             e -= 1
             time.sleep(0.05)
 

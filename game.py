@@ -9,7 +9,7 @@
 import pygame
 import math
 
-def game(environment):
+def game(environment, lock):
 
     pygame.init()
     clock = pygame.time.Clock()
@@ -50,7 +50,9 @@ def game(environment):
         # INFO SECTION
         pygame.draw.rect(screen, (200,20,20), pygame.Rect(info), 2)
 
+        lock.acquire()
         state = environment.state()
+        lock.release()
         # what is a loop? i keep hearing about them
         text0 = font.render(str(state[0]), True, (0, 255, 0), (0, 0, 255))
         text1 = font.render(str(state[1]), True, (0, 255, 0), (0, 0, 255))
@@ -66,6 +68,7 @@ def game(environment):
         # MAP SECTION
         pygame.draw.rect(screen, (200,20,20), pygame.Rect(map), 2)
 
+        lock.acquire()
         # convert map dimensions to game dimensions (800x800
         x_factor = 800 / environment.x
         y_factor = 800 / environment.y
@@ -79,6 +82,7 @@ def game(environment):
         # plot agent location
         pygame.draw.circle(screen, (255, 0, 0), (400 + environment.agent[0] * x_factor,
                                                  800 - environment.agent[1] * y_factor), 5)
+        lock.release()
 
 
 
