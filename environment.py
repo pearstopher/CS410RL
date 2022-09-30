@@ -66,7 +66,7 @@ class Environment:
         # node proximity
         # (calculated with pythagorean theorem)
         # exact distance up to a limit, 0 if too far
-        p_max = 100
+        p_max = 25
         p = ((self.node[0] - self.agent[0])**2 + (self.node[1] - self.agent[1])**2)**0.5
         # return 0 if the distance is beyond the max viewable distance
         if p > p_max:
@@ -122,8 +122,6 @@ class Environment:
         if self.orientation < 0:
             self.orientation += 360
 
-        # print(self.orientation)
-
         return self.DEFAULT_ACTION_REWARD
 
     # go forwards
@@ -138,7 +136,6 @@ class Environment:
 
         # change the agent coordinates based on the direction the agent is facing
         # damn radians and degrees!
-        print(self.orientation)
         x_amount = total_amount * math.cos(math.radians(self.orientation))
         y_amount = total_amount * math.sin(math.radians(self.orientation))
 

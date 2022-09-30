@@ -46,8 +46,8 @@ def main():
 
         print("x")
         world.forward()
-        # world.right()  # if this works the agent will go in circles
-        time.sleep(0.5)
+        world.right()  # if this works the agent will go in circles
+        time.sleep(0.1)
 
     thr.join()  # Will wait till "foo" is done
 

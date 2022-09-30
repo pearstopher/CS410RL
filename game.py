@@ -90,21 +90,21 @@ def game(environment):
         radius = center_y - 10  # give a few pixels of extra room around the circle
         pygame.draw.circle(screen, (0, 0, 255), (center_x, center_y), radius)
 
+        pygame.draw.circle(screen, (255, 0, 0), (center_x, center_y), 7)
+
         # convert the proximity to a position on the minimap
         if state[2] == 0:
             proximity = radius
         else:
             proximity = radius * state[2]  # state[2] proximity is already normalized to range 0,1
-            proximity = radius
 
         # calculate node location relative to center of circle
         rel_x = proximity * math.cos(math.radians(state[1]))
         rel_y = proximity * math.sin(math.radians(state[1]))
         # and draw a little circle for the node
         # subtract rel_y because again coordinates are reversed in the visual system
-        pygame.draw.circle(screen, (0, 255, 0), (center_x + rel_x, center_y - rel_y), 5)
+        pygame.draw.circle(screen, (0, 255, 0), (center_x + rel_x, center_y - rel_y), 7)
 
-        print(state[1])
 
         # Flip the display
         pygame.display.flip()
