@@ -7,6 +7,7 @@
 
 # Import and initialize the pygame library
 import pygame
+import math
 
 def game(environment):
 
@@ -84,7 +85,20 @@ def game(environment):
         # circle: surface, color, center, radius, width
         center_y = mini[2]//2  # circle center location (y) based on width of section
         center_x = mini[0] + center_y  # circle center (x) is starting point plus half width
-        pygame.draw.circle(screen, (0, 0, 255), (center_x, center_y), center_y - 10)
+        radius = center_y - 10  # give a few pixels of extra room around the circle
+        pygame.draw.circle(screen, (0, 0, 255), (center_x, center_y), radius)
+
+        # convert the proximity to a position on the minimap
+        if state[2] == 0:
+            proximity = radius
+        else:
+            proximity = radius * state[2]  # proximity is already normalized to range 0,1
+
+        # calculate node location relative to center of circle
+        rel_x = proximity * math.cos(state[1]/2*math.pi)
+        rel_y = proximity * math.sin(state[1]/2*math.pi)
+        # and draw a little circle for the node
+        pygame.draw.circle(screen, (0, 255, 0), (center_x + rel_x, center_y + rel_y), 5)
 
         # Flip the display
         pygame.display.flip()
