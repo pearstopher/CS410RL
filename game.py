@@ -12,6 +12,7 @@ import math
 def game(environment):
 
     pygame.init()
+    clock = pygame.time.Clock()
 
     # name the window
     pygame.display.set_caption('Gathering Simulator')
@@ -34,6 +35,7 @@ def game(environment):
     # Run until the user asks to quit
     running = True
     while running:
+        clock.tick(30)  # maximum frames per second
 
         # Did the user click the window close button?
         for event in pygame.event.get():
