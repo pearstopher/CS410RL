@@ -126,3 +126,29 @@ class Agent:
         # (todo)
 
         return reward, success
+
+    def epsilon_greedy_action(self, state):
+        # set epsilon to a standard value
+        epsilon = 0.1
+
+        # choose badly with epsilon chance
+        if random.uniform(0, 1) < epsilon:
+            action = random.randrange(0, self.num_actions)
+
+        # otherwise choose goodly
+        else:
+            action = self.best_action(state)
+        return action
+
+    def best_action(self, state):
+
+        # Choose an action a_t, using greedy action selection
+        action_values = np.zeros(self.num_actions)
+        for i in range(len(action_values)):
+            action_values[i] = self.get_q(state, i)
+
+        # return the best value, or randomly pick from equal best values
+        actions = np.argwhere(action_values == max(action_values))
+        index = random.randrange(0, len(actions))
+        return actions[index]
+
