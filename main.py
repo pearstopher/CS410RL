@@ -2,7 +2,7 @@
 # CS410 Reinforcement Learning Fall 2022
 # Term Project
 #
-#
+# todo: add graphs
 
 from game import game
 from agent import Agent
