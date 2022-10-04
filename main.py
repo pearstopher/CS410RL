@@ -83,7 +83,7 @@ def main():
 
     # display the training graph
     if GRAPH:
-    # initialize the visual graph
+        # initialize the visual graph
         graph = Graph(y_lim=max(rewards)+10)
         # print training graph
         # graph.display(list(range(episodes)), [x+1000 for x in rewards])
