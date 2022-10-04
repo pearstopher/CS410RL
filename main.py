@@ -15,6 +15,7 @@ from graph import Graph
 THREAD = False
 # if graphing is allowed,
 # a plot of rewards over time will be shown *after* training
+GRAPH = True
 
 
 def main():
