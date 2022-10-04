@@ -21,6 +21,7 @@ class Environment:
         # set the environmental rewards
         self.DEFAULT_ACTION_REWARD = -1  # in general, a solution with fewer actions is better
         self.GATHERING_SUCCESS = 1000  # this is the reward for when the agent achieves its goal
+        self.GATHERING_FAILURE = self.DEFAULT_ACTION_REWARD  # no evidence that we need extra punishment
 
     # return a random valid location within the bounds of the world
     def random_location(self):
@@ -99,7 +100,7 @@ class Environment:
     def left(self):
         rotate_amount = 10  # degrees
         random_percent = 10  # percent of rotate_amount
-        random_amount = rotate_amount * random_percent / 100 # center at 0
+        random_amount = rotate_amount * random_percent / 100  # center at 0
 
         self.orientation += rotate_amount
         self.orientation += random.random() * random_amount - (random_amount / 2)  # center at 0
@@ -164,4 +165,4 @@ class Environment:
             return self.GATHERING_SUCCESS
         # no special punishment needed, wasting time is punishment enough
         else:
-            return self.DEFAULT_ACTION_REWARD
+            return self.GATHERING_FAILURE

@@ -2,7 +2,10 @@
 # CS410 Reinforcement Learning Fall 2022
 # Term Project
 #
-# todo: create variable world size
+# todo:
+#   graph estimate of minimum steps (distance between points + distance apart)
+#   decay learning rate, see if it helps things settle down
+#   graph testing (fully on policy) after training!
 
 # import all my stuff
 from game import game
@@ -41,14 +44,14 @@ ETA_DECREASE_AMOUNT = 1/500
 GAMMA = 0.9  # 0.9 standard
 
 # rate at which to make off-policy (random) choices (exploration)
-EPSILON = 0.1  # 0.1 standard
+EPSILON = 0.01  # 0.1 standard, keeping small because of encouraging initialization
 
 # initial world size
 WORLD_SIZE = (100, 100)
 # increase world size after episodes of initial training
 WORLD_INCREASE_AFTER = 3000
 # increased world size after initial training episodes
-WORLD_INCREASE_SIZE = (200, 200)
+WORLD_INCREASE_SIZE = (400, 400)
 
 
 def main():
