@@ -20,7 +20,7 @@ class Environment:
 
         # set the environmental rewards
         self.DEFAULT_ACTION_REWARD = -1  # in general, a solution with fewer actions is better
-        self.GATHERING_SUCCESS = 100  # this is the reward for when the agent achieves its goal
+        self.GATHERING_SUCCESS = 1000  # this is the reward for when the agent achieves its goal
 
     # return a random valid location within the bounds of the world
     def random_location(self):

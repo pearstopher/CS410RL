@@ -11,7 +11,7 @@ from graph import Graph
 
 # if threading is allowed,
 # a pygame window will show live visual progress *during* training
-# and a handful of visual examples will be shown *after* tranining
+# either wya, a handful of visual examples will be shown *after* tranining
 THREAD = False
 # if graphing is allowed,
 # a plot of rewards over time will be shown *after* training
@@ -26,15 +26,19 @@ def main():
     agent = Agent()
 
     # initialize an environment for the agent to explore
-    world = Environment(100,100)
+    world = Environment(100, 100)
     world.info()
 
     # place the agent in the environment
     agent.assign(world)
 
+    # wouldn't want pycharm to think we're referencing anything before assignment now,
+    # WOULD WE???
+    lock = None
+    thr = None
+
     # display information from agent's sensors
     agent.info()
-
 
     if THREAD:
         # create a thread for the game
@@ -45,7 +49,7 @@ def main():
         # you can safely transfer stuff between threads with locks or queues if you wanna
         # from queue import Queue
         # q = Queue()
-        thr = threading.Thread(target=game, args=(world,lock))
+        thr = threading.Thread(target=game, args=(world, lock))
         thr.start()
 
         import time  # sleep to slow down for visual display
@@ -77,20 +81,21 @@ def main():
     if THREAD:
         thr.join()  # Will wait till game is done
 
+    # display the training graph
+    if GRAPH:
     # initialize the visual graph
-    graph = Graph(y_lim=max(rewards)+1000)
-    # print training graph
-    graph.display(list(range(episodes)), [x+1000 for x in rewards])
-
-
-
+        graph = Graph(y_lim=max(rewards)+10)
+        # print training graph
+        # graph.display(list(range(episodes)), [x+1000 for x in rewards])
+        graph.display(list(range(episodes)), rewards)
 
     # show some examples of the agent findin its way
+    import threading
+    import time
 
-    for _ in range(0):
+    for _ in range(2):
         e = 1000
 
-        # start another thread
         thr = threading.Thread(target=game, args=(world,lock))
         thr.start()
         time.sleep(1)
