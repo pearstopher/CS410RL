@@ -2,7 +2,6 @@
 # CS410 Reinforcement Learning Fall 2022
 # Term Project
 #
-# todo: add graphs
 # todo: create variable world size
 
 from game import game
@@ -30,6 +29,7 @@ def main():
     agent.info()
 
 
+
     # create a thread for the game
     # ideally I will be able to cap the framerate of pygame without slowing the actual computation
     import threading
@@ -50,14 +50,16 @@ def main():
     # the interface is purely a visual representation of what is going on behind the scenes
     # (although it currently can't be disabled)
     #
-    episodes = 1000
+    episodes = 100
     e = 0
+    rewards = [0 for _ in range(episodes)]
     while thr.is_alive() and e < episodes:
 
         # let the agent train until it reaches the max number of episodes
         # (or the pygame window is closed)
         lock.acquire()
         reward = agent.episode()
+        rewards[e] = reward
         lock.release()
         print("Episode:", e, "Total Reward:", reward)
         e += 1
@@ -67,7 +69,17 @@ def main():
 
     thr.join()  # Will wait till game is done
 
-    for _ in range(5):
+    # initialize the visual graph
+    graph = Graph(y_lim=max(rewards)+1000)
+    # print training graph
+    graph.display(list(range(episodes)), [x+1000 for x in rewards])
+
+
+
+
+    # show some examples of the agent findin its way
+
+    for _ in range(0):
         e = 1000
 
         # start another thread
