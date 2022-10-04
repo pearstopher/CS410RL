@@ -9,11 +9,10 @@ from agent import Agent
 from environment import Environment
 from graph import Graph
 
-# if threading is allowed,
 # a pygame window will show live visual progress *during* training
-# either wya, a handful of visual examples will be shown *after* tranining
-THREAD = False
-# if graphing is allowed,
+PYGAME_TRAIN = False
+# a pygame window will show a number of visual examples *after* training
+PYGAME_EXAMPLES = 0
 # a plot of rewards over time will be shown *after* training
 GRAPH = True
 
@@ -27,7 +26,7 @@ def main():
     agent = Agent()
 
     # initialize an environment for the agent to explore
-    world = Environment(100, 100)
+    world = Environment(50, 50)
     world.info()
 
     # place the agent in the environment
@@ -41,7 +40,7 @@ def main():
     # display information from agent's sensors
     agent.info()
 
-    if THREAD:
+    if PYGAME_TRAIN:
         # create a thread for the game
         # ideally I will be able to cap the framerate of pygame without slowing the actual computation
         import threading
@@ -62,24 +61,24 @@ def main():
     # the interface is purely a visual representation of what is going on behind the scenes
     # (although it currently can't be disabled)
     #
-    episodes = 2000
+    episodes = 100
     e = 0
     rewards = [0 for _ in range(episodes)]
-    while (not THREAD or thr.is_alive()) and e < episodes:
+    while (not PYGAME_TRAIN or thr.is_alive()) and e < episodes:
 
         # let the agent train until it reaches the max number of episodes
         # (or the pygame window is closed)
-        if THREAD:
+        if PYGAME_TRAIN:
             lock.acquire()
         reward = agent.episode()
         rewards[e] = reward
-        if THREAD:
+        if PYGAME_TRAIN:
             lock.release()
         print("Episode:", e, "Total Reward:", reward)
         e += 1
         # time.sleep(0.001)
 
-    if THREAD:
+    if PYGAME_TRAIN:
         thr.join()  # Will wait till game is done
 
     # display the training graph
@@ -91,27 +90,29 @@ def main():
         graph.display(list(range(episodes)), rewards)
 
     # show some examples of the agent findin its way
-    import threading
-    import time
+    if PYGAME_EXAMPLES > 0:
+        import threading
+        lock = threading.Lock()
+        import time
 
-    for _ in range(2):
-        e = 1000
+        for _ in range(PYGAME_EXAMPLES):
+            e = 1000
 
-        thr = threading.Thread(target=game, args=(world,lock))
-        thr.start()
-        time.sleep(1)
+            thr = threading.Thread(target=game, args=(world,lock))
+            thr.start()
+            time.sleep(1)
 
-        success = 0
-        while thr.is_alive() and e > 0 and success == 0:
-            lock.acquire()
-            reward, success = agent.step()
-            lock.release()
-            e -= 1
-            time.sleep(0.002) # slow down a little so we can see it
+            success = 0
+            while thr.is_alive() and e > 0 and success == 0:
+                lock.acquire()
+                reward, success = agent.step()
+                lock.release()
+                e -= 1
+                time.sleep(0.002) # slow down a little so we can see it
 
-        thr.join()
+            thr.join()
 
-        world.reset()
+            world.reset()
 
     world.info()
 
