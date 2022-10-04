@@ -3,10 +3,12 @@
 # Term Project
 #
 # todo: add graphs
+# todo: create variable world size
 
 from game import game
 from agent import Agent
 from environment import Environment
+from graph import Graph
 
 
 def main():
@@ -18,7 +20,7 @@ def main():
     agent = Agent()
 
     # initialize an environment for the agent to explore
-    world = Environment(50,50)
+    world = Environment(100,100)
     world.info()
 
     # place the agent in the environment
