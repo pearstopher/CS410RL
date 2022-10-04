@@ -8,10 +8,22 @@ import math
 import numpy as np
 
 
-
 # agent creation function
 class Agent:
-    def __init__(self):
+    def __init__(self,
+                 ETA,
+                 ETA_DECREASE_AFTER,
+                 ETA_DECREASE_AMOUNT,
+                 GAMMA,
+                 EPSILON
+                 ):
+
+        self.ETA = ETA
+        self.ETA_DECREASE_AFTER = ETA_DECREASE_AFTER
+        self.ETA_DECREASE_AMOUNT = ETA_DECREASE_AMOUNT
+        self.GAMMA = GAMMA
+        self.EPSILON = EPSILON
+
         # keep track of how many times the agent has been trained
         self.i = 0
 
@@ -123,8 +135,8 @@ class Agent:
 
         # 5. update the q-table based on the formula:
         #    𝑄(𝑠_𝑡, 𝑎_𝑡) = 𝑄(𝑠_𝑡, 𝑎_𝑡) + 𝜂(𝑟_𝑡 + 𝛾𝑚𝑎𝑥_𝑎′𝑄(𝑠_(𝑡+1), 𝑎′) − 𝑄(𝑠_𝑡, 𝑎_𝑡))
-        eta = 0.1
-        gamma = 0.9
+        eta = self.ETA
+        gamma = self.GAMMA
 
         q = self.get_q(state, action)
         max_a_q = self.get_q(new_state, self.best_action(new_state))
@@ -135,7 +147,7 @@ class Agent:
 
     def epsilon_greedy_action(self, state):
         # set epsilon to a standard value
-        epsilon = 0.1
+        epsilon = self.EPSILON
 
         # choose badly with epsilon chance
         if random.uniform(0, 1) < epsilon:
@@ -160,6 +172,7 @@ class Agent:
     # helper functions for getting and setting q-values
     def get_q(self, state, action):
         return self.q[int(state[0]), int(state[1]), int(state[2]), int(action)]
+
     def set_q(self, state, action, value):
         self.q[int(state[0]), int(state[1]), int(state[2]), int(action)] = value
 

@@ -4,10 +4,16 @@
 #
 # todo: create variable world size
 
+# import all my stuff
 from game import game
 from agent import Agent
 from environment import Environment
 from graph import Graph
+
+
+#################
+# DISPLAY OPTIONS
+#################
 
 # a pygame window will show live visual progress *during* training
 PYGAME_TRAIN = False
@@ -17,13 +23,36 @@ PYGAME_EXAMPLES = 0
 GRAPH = True
 
 
+####################
+# TRAINING CONSTANTS
+####################
+
+# number of episodes
+EPISODES = 1500
+
+# learning rate
+ETA = 0.1  # 0.1 standard
+# decrease eta after a set number of episodes
+ETA_DECREASE_AFTER = 1000  # 0 = off
+# decrease eta by factor of
+ETA_DECREASE_AMOUNT = 1/500
+
+# discounting factor
+GAMMA = 0.9  # 0.9 standard
+
+# rate at which to make off-policy (random) choices (exploration)
+EPSILON = 0.1  # 0.1 standard
+
+
 def main():
     print("CS410 Reinforcement Learning Project")
 
-
-
     # initialize the agent
-    agent = Agent()
+    agent = Agent(ETA,
+                  ETA_DECREASE_AFTER,
+                  ETA_DECREASE_AMOUNT,
+                  GAMMA,
+                  EPSILON)
 
     # initialize an environment for the agent to explore
     world = Environment(50, 50)
@@ -42,7 +71,7 @@ def main():
 
     if PYGAME_TRAIN:
         # create a thread for the game
-        # ideally I will be able to cap the framerate of pygame without slowing the actual computation
+        # ideally I will be able to cap the frame-rate of pygame without slowing the actual computation
         import threading
         lock = threading.Lock()
 
@@ -61,10 +90,9 @@ def main():
     # the interface is purely a visual representation of what is going on behind the scenes
     # (although it currently can't be disabled)
     #
-    episodes = 100
     e = 0
-    rewards = [0 for _ in range(episodes)]
-    while (not PYGAME_TRAIN or thr.is_alive()) and e < episodes:
+    rewards = [0 for _ in range(EPISODES)]
+    while (not PYGAME_TRAIN or thr.is_alive()) and e < EPISODES:
 
         # let the agent train until it reaches the max number of episodes
         # (or the pygame window is closed)
@@ -87,9 +115,9 @@ def main():
         graph = Graph(y_lim=max(rewards)+10)
         # print training graph
         # graph.display(list(range(episodes)), [x+1000 for x in rewards])
-        graph.display(list(range(episodes)), rewards)
+        graph.display(list(range(EPISODES)), rewards)
 
-    # show some examples of the agent findin its way
+    # show some examples of the agent finding its way
     if PYGAME_EXAMPLES > 0:
         import threading
         lock = threading.Lock()
@@ -108,7 +136,7 @@ def main():
                 reward, success = agent.step()
                 lock.release()
                 e -= 1
-                time.sleep(0.002) # slow down a little so we can see it
+                time.sleep(0.002)  # slow down a little so we can see it
 
             thr.join()
 
