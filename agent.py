@@ -31,8 +31,8 @@ class Agent:
         self.world = None
 
         # configure the accuracy of the sensors
-        self.num_orientation = 16
-        self.num_direction = 16
+        self.num_orientation = 8
+        self.num_direction = 8
         self.num_proximity = 4
         # and just keep track of the number of actions here
         self.num_actions = 4  # left, right, forward, gather
@@ -81,14 +81,14 @@ class Agent:
             p = self.num_proximity - 1 # assign maximum proximity rating (farthest)
         # proximity is nonzero when there is a successful reading
         else:
-            p = state[2] * (self.num_proximity - 1) // 1 # assign proximity linearly
+            p = state[2] * (self.num_proximity - 1) // 1  # assign proximity linearly
 
         return o, d, p
 
     # an episode is made up of a series of steps that generates a reward
     def episode(self):
         # run for a set number of steps
-        max_steps = 1000
+        max_steps = 2000
 
         i = 0
         complete = 0

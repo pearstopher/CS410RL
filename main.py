@@ -18,7 +18,7 @@ from graph import Graph
 # a pygame window will show live visual progress *during* training
 PYGAME_TRAIN = False
 # a pygame window will show a number of visual examples *after* training
-PYGAME_EXAMPLES = 0
+PYGAME_EXAMPLES = 5
 # a plot of rewards over time will be shown *after* training
 GRAPH = True
 
@@ -44,11 +44,11 @@ GAMMA = 0.9  # 0.9 standard
 EPSILON = 0.1  # 0.1 standard
 
 # initial world size
-WORLD_SIZE = (50, 50)
+WORLD_SIZE = (100, 100)
 # increase world size after episodes of initial training
-WORLD_INCREASE_AFTER = 2500
+WORLD_INCREASE_AFTER = 3000
 # increased world size after initial training episodes
-WORLD_INCREASE_SIZE = (500, 500)
+WORLD_INCREASE_SIZE = (200, 200)
 
 
 def main():

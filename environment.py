@@ -68,7 +68,7 @@ class Environment:
         # node proximity
         # (calculated with pythagorean theorem)
         # exact distance up to a limit, 0 if too far
-        p_max = 25
+        p_max = 15  # try to make sure we can get always get a reward for gathering in the closest proximity range
         p = ((self.node[0] - self.agent[0])**2 + (self.node[1] - self.agent[1])**2)**0.5
         # return 0 if the distance is beyond the max viewable distance
         if p > p_max:
@@ -132,7 +132,7 @@ class Environment:
     def forward(self):
         forward_amount = 1  # units
         random_percent = 10  # percent of forward_amount
-        random_amount = forward_amount * random_percent / 100 # center at 0
+        random_amount = forward_amount * random_percent / 100  # center at 0
 
         total_amount = forward_amount + random.random() * random_amount - (random_amount / 2)  # center at 0
 
