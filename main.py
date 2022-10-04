@@ -28,7 +28,7 @@ GRAPH = True
 ####################
 
 # number of episodes
-EPISODES = 1500
+EPISODES = 5000
 
 # learning rate
 ETA = 0.1  # 0.1 standard
@@ -43,6 +43,13 @@ GAMMA = 0.9  # 0.9 standard
 # rate at which to make off-policy (random) choices (exploration)
 EPSILON = 0.1  # 0.1 standard
 
+# initial world size
+WORLD_SIZE = (50, 50)
+# increase world size after episodes of initial training
+WORLD_INCREASE_AFTER = 2500
+# increased world size after initial training episodes
+WORLD_INCREASE_SIZE = (500, 500)
+
 
 def main():
     print("CS410 Reinforcement Learning Project")
@@ -55,7 +62,7 @@ def main():
                   EPSILON)
 
     # initialize an environment for the agent to explore
-    world = Environment(50, 50)
+    world = Environment(WORLD_SIZE)
     world.info()
 
     # place the agent in the environment
@@ -100,6 +107,12 @@ def main():
             lock.acquire()
         reward = agent.episode()
         rewards[e] = reward
+
+        # change world size at set interval
+        if e == WORLD_INCREASE_AFTER:
+            world.x = WORLD_INCREASE_SIZE[0]
+            world.y = WORLD_INCREASE_SIZE[1]
+
         if PYGAME_TRAIN:
             lock.release()
         print("Episode:", e, "Total Reward:", reward)

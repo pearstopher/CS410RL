@@ -10,10 +10,10 @@ import math
 # world generation function
 # this world will start very simply and iteratively increase in complexity
 class Environment:
-    def __init__(self, x=1000, y=1000):
+    def __init__(self, world_size=(100,100)):
         # set the size of the (rectangular) world
-        self.x = x  # width
-        self.y = y  # height
+        self.x = world_size[0]  # width
+        self.y = world_size[1]  # height
 
         self.node, self.agent, self.orientation = None, None, None
         self.reset()
