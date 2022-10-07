@@ -25,7 +25,7 @@ class Environment:
         # the environment will have #levers choices
         # each choice will have an associated reward
         # the range of rewards spans from 0-100
-        self.rewards = [random.uniform(0, 100) for _ in range(levers)]
+        self.rewards = [random.randint(1, 100) for _ in range(levers)]
 
     # the environment has levers to pull, the agent has arms to pull them
     def pull(self, lever):
@@ -120,6 +120,7 @@ def main():
     random_results /= RUNS
 
     # plot the results from the two bandits to see who does better
+    print()
     print("Greedy reward: ", greedy_results)
     print("Epsilon-greedy reward: ", epsilon_results)
     print("Random reward: ", random_results)
