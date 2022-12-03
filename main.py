@@ -4,7 +4,6 @@
 #
 # todo:
 #   graph estimate of minimum steps (distance between points + distance apart)
-#   decay learning rate, see if it helps things settle down
 #   graph testing (fully on policy) after training!
 
 # import all my stuff
