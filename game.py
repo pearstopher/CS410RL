@@ -1,3 +1,7 @@
+# Christopher Juncker
+# CS410RL
+# game.py
+#
 # basic shell of a pygame program
 # will modify to show some basic elements of the 'game'
 #
