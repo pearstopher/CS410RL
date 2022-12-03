@@ -88,7 +88,7 @@ class Agent:
     # an episode is made up of a series of steps that generates a reward
     def episode(self):
         # run for a set number of steps
-        max_steps = 2000
+        max_steps = 1000
 
         i = 0
         complete = 0
@@ -132,6 +132,10 @@ class Agent:
 
         # 4. observe the new state
         new_state = self.sense()
+
+        # update ETA if it is being decreased
+        if self.ETA_DECREASE_AFTER and self.i > self.ETA_DECREASE_AFTER:
+            self.ETA -= self.ETA_DECREASE_AMOUNT
 
         # 5. update the q-table based on the formula:
         #    𝑄(𝑠_𝑡, 𝑎_𝑡) = 𝑄(𝑠_𝑡, 𝑎_𝑡) + 𝜂(𝑟_𝑡 + 𝛾𝑚𝑎𝑥_𝑎′𝑄(𝑠_(𝑡+1), 𝑎′) − 𝑄(𝑠_𝑡, 𝑎_𝑡))

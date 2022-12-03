@@ -38,7 +38,7 @@ ETA = 0.1  # 0.1 standard
 # decrease eta after a set number of episodes
 ETA_DECREASE_AFTER = 1000  # 0 = off
 # decrease eta by factor of
-ETA_DECREASE_AMOUNT = 1/500
+ETA_DECREASE_AMOUNT = 0.1/4000  # it will decrease linearly reach 0 at the end
 
 # discounting factor
 GAMMA = 0.9  # 0.9 standard
@@ -49,7 +49,7 @@ EPSILON = 0.01  # 0.1 standard, keeping small because of encouraging initializat
 # initial world size
 WORLD_SIZE = (100, 100)
 # increase world size after episodes of initial training
-WORLD_INCREASE_AFTER = 3000
+WORLD_INCREASE_AFTER = 5000
 # increased world size after initial training episodes
 WORLD_INCREASE_SIZE = (400, 400)
 
